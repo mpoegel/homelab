@@ -1,0 +1,16 @@
+[Unit]
+Description=envoy proxy
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+User=root
+Group=root
+Type=simple
+Restart=always
+RestartSec=1
+ExecStart=/usr/local/bin/envoy --config-path /usr/local/etc/envoy/envoy.yaml
+
+[Install]
+WantedBy=multi-user.target
