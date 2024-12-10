@@ -1,13 +1,6 @@
 #!/bin/bash
 
-function log_error {
-    echo $1
-    exit 1
-}
-
-function log_info {
-    echo $1
-}
+. bin/homelab_functions.sh || . /usr/local/bin/homelab_functions.sh
 
 TEMP=$(getopt -o "cd" --long "clean,dry-run" -n "make_release.sh" -- "$@")
 eval set -- "$TEMP"
