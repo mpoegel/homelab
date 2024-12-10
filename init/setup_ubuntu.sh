@@ -8,6 +8,10 @@ fi
 apt update -y
 apt upgrade -y
 
+## 0. Install homelab files
+wget https://github.com/mpoegel/homelab/releases/download/latest/homelab_v0.0.1.tar.gz
+tar xzfv homelab_v0.0.1.tar.gz -C /
+
 ## 1. Setup tailscale
 if [ ! -f "/usr/bin/tailscale" ]; then
     curl -fsSL https://tailscale.com/install.sh | sh
@@ -32,10 +36,17 @@ if [ ! -f "/usr/bin/docker" ]; then
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 fi
 
-## 3. Install mahogany
+## 3. Install OTel Collector
+wget wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.deb
+dpkg -i otelcol_0.115.1_linux_amd64.deb
+mv /etc/otelcol/config.yaml /etc/otelcol/config.orig.yaml
+ln -s /usr/local/etc/envoy/otel_collector.yaml /etc/otelcol/config.yaml
+systemctl restart otelcol
+
+## 4. Install mahogany
 wget https://github.com/mpoegel/mahogany/releases/download/latest/mahogany_Linux_x86_64.tar.gz
 tar xzfv mahogany_Linux_x86_64.tar.gz -C /
 service mahogany restart
 
-## 4. Set reboot cycle
+## 5. Set reboot cycle
 crontab /usr/local/etc/cron/crontab
