@@ -44,9 +44,10 @@ ln -s /usr/local/etc/envoy/otel_collector.yaml /etc/otelcol/config.yaml
 systemctl restart otelcol
 
 ## 4. Install mahogany
-wget https://github.com/mpoegel/mahogany/releases/download/v0.0.2/mahogany_Linux_x86_64._0.0.2.tar.gz
-tar xzfv mahogany_Linux_x86_64.tar.gz -C /
-service mahogany restart
+# TODO fix
+# wget https://github.com/mpoegel/mahogany/releases/download/v0.0.2/mahogany_Linux_x86_64._0.0.2.tar.gz
+# tar xzfv mahogany_Linux_x86_64._0.0.2.tar.gz -C /
+# service mahogany restart
 
 ## 5. Set reboot cycle
 crontab /usr/local/etc/cron/crontab
