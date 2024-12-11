@@ -1,0 +1,13 @@
+bin/homelab_functions.sh    /usr/local/bin/homelab_functions.sh
+bin/make_release.sh         /usr/local/bin/make_release.sh
+bin/renew_certs.sh          /usr/local/bin/renew_certs.sh
+bin/update_and_reboot.sh    /usr/local/bin/update_and_reboot.sh
+config/crontab              /usr/local/etc/cron/crontab
+config/edge_envoy.yaml      /usr/local/etc/envoy/envoy.yaml
+config/otel_collector.yaml  /usr/local/etc/envoy/otel_collector.yaml
+init/setup_edge.sh          /usr/local/sbin/setup_edge.sh
+init/setup_ubuntu.sh        /usr/local/sbin/setup_ubuntu.sh
+services/envoy.service      /usr/local/etc/systemd/system/envoy.service
+
+[[extra_files]]
+install.sh
