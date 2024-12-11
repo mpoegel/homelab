@@ -59,22 +59,44 @@ fi
 # begin release
 log_info "releasing $tag"
 
+PARSE_MODE="bundle"
+extraFiles=()
+
 # gather artifacts in dist
 while read -r line; do
-    to_from_files=(${line// / })
-    from_file=${to_from_files[0]}
-    to_file=${to_from_files[1]}
-    if [ ! -f "$from_file" ]; then
-        log_error "missing file: $from_file"
+    if [ -z "$line" ]; then
+        continue
     fi
 
-    destDir=$(dirname "$to_file")
-    mkdir -p "dist/$destDir"
-    cp $from_file "dist/$to_file"
-    if [ ! -f "dist/$to_file" ]; then
-        log_error "failed to prepare file: $from_file"
+    if [ "[[extra_files]]" == "$line" ]; then
+        PARSE_MODE="extra_files"
+        continue
+    elif [ "[[bundle]]" == "$line" ]; then
+        PARSE_MODE="bundle"
+        continue
     fi
-    log_info "prepared $from_file"
+
+    if [ "bundle" == "$PARSE_MODE" ]; then
+        to_from_files=(${line// / })
+        from_file=${to_from_files[0]}
+        to_file=${to_from_files[1]}
+        if [ ! -f "$from_file" ]; then
+            log_error "missing file: $from_file"
+        fi
+
+        destDir=$(dirname "$to_file")
+        mkdir -p "dist/$destDir"
+        cp $from_file "dist/$to_file"
+        if [ ! -f "dist/$to_file" ]; then
+            log_error "failed to prepare file: $from_file"
+        fi
+        log_info "prepared $from_file"
+    elif [ "extra_files" == "$PARSE_MODE" ]; then
+        if [ ! -f "$line" ]; then
+            log_error "extra file not found: $line"
+        fi
+        extraFiles+=("$line")
+    fi
 done < ".manifest"
 
 # bundle the dist directory
@@ -90,6 +112,7 @@ log_info "created release bundle $bundleName"
 # create github release
 if [ "0" == "$DRY_RUN_MODE" ]; then
     gh release create "$tag" --generate-notes "$bundleName"
+    gh release upload "$tag" "${extraFiles[@]}"
     log_info "github release completed"
 else
     log_info "skipping github release"

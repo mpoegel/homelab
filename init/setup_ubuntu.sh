@@ -8,10 +8,6 @@ fi
 apt update -y
 apt upgrade -y
 
-## 0. Install homelab files
-wget https://github.com/mpoegel/homelab/releases/download/latest/homelab_v0.0.1.tar.gz
-tar xzfv homelab_v0.0.1.tar.gz -C /
-
 ## 1. Setup tailscale
 if [ ! -f "/usr/bin/tailscale" ]; then
     curl -fsSL https://tailscale.com/install.sh | sh
