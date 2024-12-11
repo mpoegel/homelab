@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOMELAB_VERSION="v0.0.1"
+HOMELAB_VERSION="v0.0.2"
 
 if [ "root" != "$USER" ]; then
     echo "must be run as root"
@@ -8,7 +8,7 @@ if [ "root" != "$USER" ]; then
 fi
 
 ## 0. Install homelab files
-wget "https://github.com/mpoegel/homelab/releases/download/latest/homelab_${HOMELAB_VERSION}.tar.gz"
+wget "https://github.com/mpoegel/homelab/releases/latest/download/homelab_${HOMELAB_VERSION}.tar.gz"
 tar xzfv "homelab_${HOMELAB_VERSION}.tar.gz" -C /
 
 . /usr/local/bin/homelab_functions.sh

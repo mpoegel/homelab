@@ -6,6 +6,7 @@ if [ "root" != "$USER" ]; then
 fi
 
 yum upgrade
+yum install -y curl vim jq
 
 ## 1. Setup tailscale
 if [ ! -f "/usr/bin/tailscale" ]; then

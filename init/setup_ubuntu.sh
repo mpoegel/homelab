@@ -8,6 +8,8 @@ fi
 apt update -y
 apt upgrade -y
 
+apt install -y curl vim jq
+
 ## 1. Setup tailscale
 if [ ! -f "/usr/bin/tailscale" ]; then
     curl -fsSL https://tailscale.com/install.sh | sh
@@ -33,14 +35,16 @@ if [ ! -f "/usr/bin/docker" ]; then
 fi
 
 ## 3. Install OTel Collector
-wget wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.deb
-dpkg -i otelcol_0.115.1_linux_amd64.deb
+if [ ! -f "/usr/bin/otelcol" ]; then
+    wget wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.deb
+    dpkg -i otelcol_0.115.1_linux_amd64.deb
+fi
 mv /etc/otelcol/config.yaml /etc/otelcol/config.orig.yaml
 ln -s /usr/local/etc/envoy/otel_collector.yaml /etc/otelcol/config.yaml
 systemctl restart otelcol
 
 ## 4. Install mahogany
-wget https://github.com/mpoegel/mahogany/releases/download/latest/mahogany_Linux_x86_64.tar.gz
+wget https://github.com/mpoegel/mahogany/releases/download/v0.0.2/mahogany_Linux_x86_64._0.0.2.tar.gz
 tar xzfv mahogany_Linux_x86_64.tar.gz -C /
 service mahogany restart
 
