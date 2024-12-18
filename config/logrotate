@@ -1,0 +1,8 @@
+/var/log/homelab/*.log {
+    rotate 7
+    daily
+    size 5M
+    missingok
+    maxage 60
+    nocompress
+}

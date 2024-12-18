@@ -35,13 +35,16 @@ if [ ! -f "/usr/bin/docker" ]; then
 fi
 
 ## 3. Install OTel Collector
-if [ ! -f "/usr/bin/otelcol" ]; then
-    wget wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.115.1/otelcol_0.115.1_linux_amd64.deb
-    dpkg -i otelcol_0.115.1_linux_amd64.deb
+if [ -f "/usr/bin/otelcol-contrib" ]; then
+    dpkg -r otelcol-contrib
 fi
-mv /etc/otelcol/config.yaml /etc/otelcol/config.orig.yaml
-ln -s /usr/local/etc/envoy/otel_collector.yaml /etc/otelcol/config.yaml
-systemctl restart otelcol
+wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.116.1/otelcol-contrib_0.116.1_linux_amd64.deb
+dpkg -i otelcol-contrib_0.116.1_linux_amd64.deb
+
+mv /etc/otelcol-contrib/config.yaml /etc/otelcol-contrib/config.orig.yaml
+ln -s /usr/local/etc/otel/otel_collector.yaml /etc/otelcol-contrib/config.yaml
+systemctl restart otelcol-contrib
+mkdir -p /var/log/homelab
 
 ## 4. Install mahogany
 # TODO fix

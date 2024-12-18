@@ -19,6 +19,18 @@ receivers:
   opencensus:
     endpoint: 127.0.0.1:55678
 
+  filelog:
+    include: [ /var/log/homelab/*.zap.log ]
+    operators:
+      - type: regex_parser
+        id: zap_logs
+        regex: '^(?P<time>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z)\s+(?P<sev>[A-Z]*)\s+(?P<source_line>\S+)\s+(?P<msg>.*)$'
+        timestamp:
+          parse_from: attributes.time
+          layout: '%Y-%m-%d %H:%M:%S'
+        severity:
+          parse_from: attributes.sev
+
   # Collect own metrics
   prometheus:
     config:
@@ -64,7 +76,7 @@ service:
       exporters: [debug]
 
     logs:
-      receivers: [otlp]
+      receivers: [otlp, filelog]
       processors: [batch]
       exporters: [debug]
 
