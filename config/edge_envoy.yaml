@@ -97,7 +97,7 @@ static_resources:
 
   clusters:
   - name: pizza
-    type: LOGICAL_DNS
+    type: STRICT_DNS
     load_assignment:
       cluster_name: pizza
       endpoints:
@@ -106,6 +106,12 @@ static_resources:
             address:
               socket_address:
                 address: pizza
+                port_value: 1995
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: pizza-blue
                 port_value: 1995
   - name: recipes
     type: LOGICAL_DNS
