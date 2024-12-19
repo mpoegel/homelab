@@ -54,3 +54,6 @@ mkdir -p /var/log/homelab
 
 ## 5. Set reboot cycle
 crontab /usr/local/etc/cron/crontab
+
+## 6. Setup logrotate
+ln -s /usr/local/etc/logrotate/homelab /etc/logrotate.d/homelab

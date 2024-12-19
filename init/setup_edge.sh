@@ -21,6 +21,7 @@ ln -s /snap/bin/certbot /usr/bin/certbot
 # 3. Install envoy
 wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-x86_64 \
     -O /usr/local/bin/envoy-1.32.2
+chmod 771 /usr/local/bin/envoy-1.32.2
 ln -s /usr/local/bin/envoy-1.32.2 /usr/local/bin/envoy
 
 systemctl enable envoy
