@@ -5,6 +5,8 @@ if [ "root" != "$USER" ]; then
     exit 1
 fi
 
+. /etc/os-release
+
 yum upgrade
 yum install -y curl vim jq
 
@@ -19,9 +21,16 @@ snap install --classic certbot
 ln -s /snap/bin/certbot /usr/bin/certbot
 
 # 3. Install envoy
-wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-x86_64 \
-    -O /usr/local/bin/envoy-1.32.2
+if [ "$NAME" == "Oracle Linux Server" ]; then
+    wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-aarch_64 \
+        -O /usr/local/bin/envoy-1.32.2
+else
+    wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-x86_64 \
+        -O /usr/local/bin/envoy-1.32.2
+fi
+
 chmod 771 /usr/local/bin/envoy-1.32.2
+rm /usr/local/bin/envoy
 ln -s /usr/local/bin/envoy-1.32.2 /usr/local/bin/envoy
 
 systemctl enable envoy
