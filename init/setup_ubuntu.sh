@@ -38,8 +38,10 @@ fi
 if [ -f "/usr/bin/otelcol-contrib" ]; then
     dpkg -r otelcol-contrib
 fi
-wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.116.1/otelcol-contrib_0.116.1_linux_amd64.deb
-dpkg -i otelcol-contrib_0.116.1_linux_amd64.deb
+OTELCOL_VERSION="0.116.1"
+wget "https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v${OTELCOL_VERSION}/otelcol-contrib_${OTELCOL_VERSION}_linux_amd64.deb"
+dpkg -i "otelcol-contrib_${OTELCOL_VERSION}_linux_amd64.deb"
+rm "otelcol-contrib_${OTELCOL_VERSION}_linux_amd64.deb"
 
 mv /etc/otelcol-contrib/config.yaml /etc/otelcol-contrib/config.orig.yaml
 ln -s /usr/local/etc/otel/otel_collector.yaml /etc/otelcol-contrib/config.yaml
@@ -47,10 +49,14 @@ systemctl restart otelcol-contrib
 mkdir -p /var/log/homelab
 
 ## 4. Install mahogany
-# TODO fix
-# wget https://github.com/mpoegel/mahogany/releases/download/v0.0.2/mahogany_Linux_x86_64._0.0.2.tar.gz
-# tar xzfv mahogany_Linux_x86_64._0.0.2.tar.gz -C /
-# service mahogany restart
+MAHOGANY_VERSION="0.0.4"
+wget "https://github.com/mpoegel/mahogany/releases/download/v${MAHOGANY_VERSION}/mahogany_Linux_x86_64._${MAHOGANY_VERSION}.tar.gz"
+tar xzfv "mahogany_Linux_x86_64._${MAHOGANY_VERSION}.tar.gz" -C /
+ln -s /usr/local/etc/mahogany/mahogany.agent.service /etc/systemd/system/mahogany.agent.service
+cat /etc/mahogany/.env | envsubst > /etc/mahogany/.env
+service mahogany.agent restart
+systemctl enable mahogany.agent
+rm "mahogany_Linux_x86_64._${MAHOGANY_VERSION}.tar.gz"
 
 ## 5. Set reboot cycle
 crontab /usr/local/etc/cron/crontab

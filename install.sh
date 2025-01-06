@@ -10,6 +10,7 @@ fi
 ## 0. Install homelab files
 wget "https://github.com/mpoegel/homelab/releases/latest/download/homelab_${HOMELAB_VERSION}.tar.gz"
 tar xzfv "homelab_${HOMELAB_VERSION}.tar.gz" -C /
+rm "homelab_${HOMELAB_VERSION}.tar.gz"
 
 . /usr/local/bin/homelab_functions.sh
 

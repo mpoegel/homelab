@@ -59,7 +59,10 @@ processors:
 
 exporters:
   debug:
-    verbosity: detailed
+    verbosity: basic
+
+  otlphttp:
+    endpoint: http://telemetry:3100/otlp
 
 service:
 
@@ -78,6 +81,6 @@ service:
     logs:
       receivers: [otlp, filelog]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlphttp]
 
   extensions: [health_check, pprof, zpages]

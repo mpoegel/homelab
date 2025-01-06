@@ -5,8 +5,11 @@ bin/update_and_reboot.sh    /usr/local/bin/update_and_reboot.sh
 config/crontab              /usr/local/etc/cron/crontab
 config/edge_envoy.yaml      /usr/local/etc/envoy/envoy.yaml
 config/logrotate            /usr/local/etc/logrotate/homelab
+config/loki-config.yaml     /usr/local/etc/loki-config.yaml
+config/mahogany.env         /etc/mahogany/.env
 config/otel_collector.yaml  /usr/local/etc/otel/otel_collector.yaml
 init/setup_edge.sh          /usr/local/sbin/setup_edge.sh
+init/setup_telemetry.sh     /usr/local/bin/setup_telemetry.sh
 init/setup_ubuntu.sh        /usr/local/sbin/setup_ubuntu.sh
 services/envoy.service      /usr/local/etc/systemd/system/envoy.service
 
