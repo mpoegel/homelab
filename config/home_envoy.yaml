@@ -1,0 +1,91 @@
+static_resources:
+  listeners:
+  - name: http
+    address:
+      socket_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 80
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.local_ratelimit
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.local_ratelimit.v3.LocalRateLimit
+          stat_prefix: https_lrl
+          token_bucket:
+            max_tokens: 60
+            tokens_per_fill: 5
+            fill_interval: 5s
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_http
+          route_config:
+            name: http_routes
+            virtual_hosts:
+            - name: proxmox_service
+              domains: ["proxmox.home"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: proxmox
+            - name: grafana_service
+              domains: ["grafana.home"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: grafana
+            - name: home_assistant_service
+              domains: ["automation.home"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: automation
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
+  clusters:
+  - name: proxmox
+    type: STRICT_DNS
+    load_assignment:
+      cluster_name: proxmox
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: proxmox
+                port_value: 8006
+  - name: grafana
+    type: LOGICAL_DNS
+    load_assignment:
+      cluster_name: grafana
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: telemetry
+                port_value: 3000
+  - name: automation
+    type: LOGICAL_DNS
+    load_assignment:
+      cluster_name: automation
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: automation
+                port_value: 8123
+admin:
+  address:
+    socket_address:
+      protocol: TCP
+      address: 127.0.0.1
+      port_value: 7000

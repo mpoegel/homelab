@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOMELAB_VERSION="v0.0.5"
+HOMELAB_VERSION="v0.0.6"
 
 if [ "root" != "$USER" ]; then
     echo "must be run as root"
@@ -43,7 +43,7 @@ if [ "lab" == "$ENVIRONMENT" ]; then
     exec /usr/local/sbin/setup_ubuntu.sh
 elif [ "edge" == "$ENVIRONMENT" ]; then
     log_info "installing edge environment"
-    exec /usr/local/sbin/setup_edge.sh
+    exec /usr/local/sbin/setup_envoy.sh
 else
     log_error "invalid environment: ${ENVIRONMENT}"
 fi
