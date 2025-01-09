@@ -1,5 +1,68 @@
 static_resources:
   listeners:
+  - name: https
+    address:
+      socket_address:
+        protocol: TCP
+        address: 0.0.0.0
+        port_value: 443
+    filter_chains:
+    - transport_socket:
+        name: envoy.transport_sockets.tls
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.DownstreamTlsContext
+          common_tls_context:
+            tls_params:
+              tls_minimum_protocol_version: TLSv1_2
+              tls_maximum_protocol_version: TLSv1_3
+            tls_certificates:
+              certificate_chain:
+                filename: /etc/letsencrypt/live/poegel.dev/fullchain.pem
+              private_key:
+                filename: /etc/letsencrypt/live/poegel.dev/privkey.pem
+      filters:
+      - name: envoy.filters.network.local_ratelimit
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.local_ratelimit.v3.LocalRateLimit
+          stat_prefix: https_lrl
+          token_bucket:
+            max_tokens: 60
+            tokens_per_fill: 5
+            fill_interval: 5s
+      - name: envoy.filters.network.http_connection_manager
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+          stat_prefix: ingress_https
+          route_config:
+            name: http_routes
+            virtual_hosts:
+            virtual_hosts:
+            - name: proxmox_service
+              domains: ["proxmox.poegel.dev"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: proxmox
+            - name: grafana_service
+              domains: ["grafana.poegel.dev"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: grafana
+            - name: home_assistant_service
+              domains: ["automation.poegel.dev"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: automation
+          http_filters:
+          - name: envoy.filters.http.router
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
   - name: http
     address:
       socket_address:
@@ -52,6 +115,19 @@ static_resources:
   clusters:
   - name: proxmox
     type: STRICT_DNS
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        common_tls_context:
+          tls_params:
+            tls_minimum_protocol_version: TLSv1_2
+            tls_maximum_protocol_version: TLSv1_3
+          tls_certificates:
+            certificate_chain:
+              filename: /etc/letsencrypt/live/poegel.dev/fullchain.pem
+            private_key:
+              filename: /etc/letsencrypt/live/poegel.dev/privkey.pem
     load_assignment:
       cluster_name: proxmox
       endpoints:
@@ -87,5 +163,5 @@ admin:
   address:
     socket_address:
       protocol: TCP
-      address: 127.0.0.1
+      address: 0.0.0.0
       port_value: 7000

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-HOMELAB_VERSION="v0.0.6"
+HOMELAB_VERSION="v0.0.7"
 
 if [ "root" != "$USER" ]; then
     echo "must be run as root"
