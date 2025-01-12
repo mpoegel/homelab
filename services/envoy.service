@@ -11,6 +11,8 @@ Type=simple
 Restart=always
 RestartSec=1
 ExecStart=/usr/local/bin/envoy --config-path /usr/local/etc/envoy/envoy.yaml
+StandardOutput=append:/var/log/homelab/envoy.log
+StandardError=append:/var/log/homelab/envoy.log
 
 [Install]
 WantedBy=multi-user.target

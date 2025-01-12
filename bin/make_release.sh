@@ -2,12 +2,13 @@
 
 . bin/homelab_functions.sh || . /usr/local/bin/homelab_functions.sh
 
-TEMP=$(getopt -o "cd" --long "clean,dry-run" -n "make_release.sh" -- "$@")
+TEMP=$(getopt -o "cds" --long "clean,dry-run,snapshot" -n "make_release.sh" -- "$@")
 eval set -- "$TEMP"
 unset TEMP
 
 DRY_RUN_MODE=0
 CLEAN=0
+SNAPSHOT=0
 
 while true; do
     case "$1" in
@@ -17,6 +18,12 @@ while true; do
             continue
         ;;
         "-d"|"--dry-run")
+            DRY_RUN_MODE=1
+            shift
+            continue
+        ;;
+        "-s"|"snapshot")
+            SNAPSHOT=1
             DRY_RUN_MODE=1
             shift
             continue
@@ -51,7 +58,13 @@ if [ ! -z "$distContents" ]; then
     log_error "dist directory is not empty"
 fi
 
-tag=$(git tag --points-at HEAD)
+if [ "1" == "$SNAPSHOT" ]; then
+    tag=$(git tag | tail -n 1)
+    tag="${tag}-snapshot"
+else
+    tag=$(git tag --points-at HEAD)
+fi
+
 if [ -z "$tag" ]; then
     log_error "commit does not have tag"
 fi

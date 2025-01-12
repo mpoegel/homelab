@@ -58,6 +58,13 @@ static_resources:
                   prefix: "/"
                 route:
                   cluster: automation
+            - name: pihole_service
+              domains: ["pihole.poegel.dev"]
+              routes:
+              - match:
+                  prefix: "/"
+                route:
+                  cluster: pihole
           http_filters:
           - name: envoy.filters.http.router
             typed_config:
@@ -159,6 +166,18 @@ static_resources:
               socket_address:
                 address: automation
                 port_value: 8123
+  - name: pihole
+    type: LOGICAL_DNS
+    load_assignment:
+      cluster_name: pihole
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: pihole
+                port_value: 80
+
 admin:
   address:
     socket_address:
