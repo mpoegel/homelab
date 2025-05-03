@@ -11,6 +11,7 @@ config/mahogany.env         /etc/mahogany/.env
 config/otel_collector.yaml  /usr/local/etc/otel/otel_collector.yaml
 init/setup_automation.sh    /usr/local/bin/setup_automation.sh
 init/setup_envoy.sh         /usr/local/sbin/setup_envoy.sh
+init/setup_storage.sh       /usr/local/bin/setup_storage.sh
 init/setup_telemetry.sh     /usr/local/bin/setup_telemetry.sh
 init/setup_ubuntu.sh        /usr/local/sbin/setup_ubuntu.sh
 services/envoy.service      /usr/local/etc/systemd/system/envoy.service
