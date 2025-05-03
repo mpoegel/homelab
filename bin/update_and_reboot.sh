@@ -16,7 +16,7 @@ if [ "$NAME" == "Ubuntu" ]; then
     apt update -y
     apt upgrade -y
 elif [ "$NAME" == "Oracle Linux Server" ]; then
-    yum upgrade
+    yum upgrade --skip-broken --nobest -y
 fi
 
-reboot
+/usr/sbin/reboot
