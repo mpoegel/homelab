@@ -1,6 +1,6 @@
 .login-pf body {
-    background-image: url("../img/pizza-background.png");
-    background-size: contain !important;
+    background-image: url("../img/pizza-wallpaper.webp");
+    background-size: 300px 200px, contain !important;
     background-repeat: repeat;
 }
 
