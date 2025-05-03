@@ -148,6 +148,19 @@ static_resources:
                 port_value: 2283
   - name: login
     type: LOGICAL_DNS
+    transport_socket:
+      name: envoy.transport_sockets.tls
+      typed_config:
+        "@type": type.googleapis.com/envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext
+        common_tls_context:
+          tls_params:
+            tls_minimum_protocol_version: TLSv1_2
+            tls_maximum_protocol_version: TLSv1_3
+          tls_certificates:
+            certificate_chain:
+              filename: /etc/letsencrypt/live/oldno.name/fullchain.pem
+            private_key:
+              filename: /etc/letsencrypt/live/oldno.name/privkey.pem
     load_assignment:
       cluster_name: login
       endpoints:
@@ -155,8 +168,8 @@ static_resources:
         - endpoint:
             address:
               socket_address:
-                address: keycloak
-                port_value: 8080
+                address: keycloak26
+                port_value: 8443
 admin:
   address:
     socket_address:

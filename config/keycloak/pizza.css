@@ -1,0 +1,9 @@
+.login-pf body {
+    background-image: url("../img/pizza-background.png");
+    background-size: contain !important;
+    background-repeat: repeat;
+}
+
+#kc-header-wrapper {
+    opacity: 0;
+}

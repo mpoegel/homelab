@@ -9,12 +9,20 @@ config/logrotate            /usr/local/etc/logrotate/homelab
 config/loki-config.yaml     /usr/local/etc/loki-config.yaml
 config/mahogany.env         /etc/mahogany/.env
 config/otel_collector.yaml  /usr/local/etc/otel/otel_collector.yaml
+
+config/keycloak/keycloak.conf           /usr/local/etc/keycloak/keycloak.conf
+config/keycloak/pizza-background.png    /usr/local/etc/keycloak/pizza-background.png
+config/keycloak/pizza.css               /usr/local/etc/keycloak/pizza.css
+config/keycloak/theme.properties        /usr/local/etc/keycloak/theme.properties
+
 init/setup_automation.sh    /usr/local/bin/setup_automation.sh
 init/setup_envoy.sh         /usr/local/sbin/setup_envoy.sh
+init/setup_keycloak.sh      /usr/local/sbin/setup_keycloak.sh
 init/setup_storage.sh       /usr/local/bin/setup_storage.sh
 init/setup_telemetry.sh     /usr/local/bin/setup_telemetry.sh
 init/setup_ubuntu.sh        /usr/local/sbin/setup_ubuntu.sh
 services/envoy.service      /usr/local/etc/systemd/system/envoy.service
+services/keycloak.service   /usr/local/etc/systemd/system/keycloak.service
 
 [[extra_files]]
 install.sh
