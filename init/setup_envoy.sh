@@ -63,16 +63,16 @@ fi
 
 # 3. Install envoy
 if [ "$NAME" == "Oracle Linux Server" ]; then
-    wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-aarch_64 \
-        -O /usr/local/bin/envoy-1.32.2
+    wget https://github.com/envoyproxy/envoy/releases/download/v1.36.2/envoy-1.36.2-linux-aarch_64 \
+        -O /usr/local/bin/envoy-1.36.2
 else
-    wget https://github.com/envoyproxy/envoy/releases/download/v1.32.2/envoy-1.32.2-linux-x86_64 \
-        -O /usr/local/bin/envoy-1.32.2
+    wget https://github.com/envoyproxy/envoy/releases/download/v1.36.2/envoy-1.36.2-linux-x86_64 \
+        -O /usr/local/bin/envoy-1.36.2
 fi
 
-chmod 771 /usr/local/bin/envoy-1.32.2
+chmod 771 /usr/local/bin/envoy-1.36.2
 rm /usr/local/bin/envoy
-ln -s /usr/local/bin/envoy-1.32.2 /usr/local/bin/envoy
+ln -s /usr/local/bin/envoy-1.36.2 /usr/local/bin/envoy
 
 if [ -f "/usr/local/etc/envoy/envoy.yaml" ]; then
     rm /usr/local/etc/envoy/envoy.yaml

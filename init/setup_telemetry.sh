@@ -17,6 +17,7 @@ docker run -d --name=loki -p 3100:3100 -p 9095:9095 \
     --volume loki-storage=/loki \
     grafana/loki:3.3.2
 
+# https://docs.influxdata.com/influxdb3/core/install/#docker-image
 docker pull influxdb:3-core
 docker run -d --name=influxdb3 -p 8181:8181 influxdb:3-core influxdb3 serve \
   --node-id ${HOSTNAME} \
