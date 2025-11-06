@@ -11,7 +11,7 @@ config/mahogany.env         /etc/mahogany/.env
 config/otel_collector.yaml  /usr/local/etc/otel/otel_collector.yaml
 
 config/keycloak/keycloak.conf           /usr/local/etc/keycloak/keycloak.conf
-config/keycloak/pizza-background.png    /usr/local/etc/keycloak/pizza-background.png
+config/keycloak/pizza-wallpaper.webp    /usr/local/etc/keycloak/pizza-wallpaper.webp
 config/keycloak/pizza.css               /usr/local/etc/keycloak/pizza.css
 config/keycloak/theme.properties        /usr/local/etc/keycloak/theme.properties
 

@@ -5,6 +5,10 @@ function log_error {
     exit 1
 }
 
+function log_warn {
+    echo WARN: $1
+}
+
 function log_info {
     echo $1
 }
