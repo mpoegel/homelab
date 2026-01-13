@@ -87,20 +87,29 @@ while read -r line; do
     elif [ "[[bundle]]" == "$line" ]; then
         PARSE_MODE="bundle"
         continue
+    elif [ "[[go_build]]" == "$line" ]; then
+        PARSE_MODE="go_build"
+        continue
+    elif [ "[[pre_install]]" == "$line" ]; then
+        PARSE_MODE="pre_install"
+        continue
+    elif [ "[[post_install]]" == "$line" ]; then
+        PARSE_MODE="post_install"
+        continue
     fi
 
     if [ "bundle" == "$PARSE_MODE" ]; then
         to_from_files=(${line// / })
         from_file=${to_from_files[0]}
         to_file=${to_from_files[1]}
-        if [ ! -f "$from_file" ]; then
+        if [[ ! -f "$from_file" && ! -d "$from_file" ]]; then
             log_error "missing file: $from_file"
         fi
 
         destDir=$(dirname "$to_file")
         mkdir -p "dist/$destDir"
-        cp $from_file "dist/$to_file"
-        if [ ! -f "dist/$to_file" ]; then
+        cp -r $from_file "dist/$to_file"
+        if [[ ! -f "dist/$to_file" && ! -d "dist/$to_file" ]]; then
             log_error "failed to prepare file: $from_file"
         fi
         log_info "prepared $from_file"
@@ -109,6 +118,16 @@ while read -r line; do
             log_error "extra file not found: $line"
         fi
         extraFiles+=("$line")
+    elif [ "go_build" == "$PARSE_MODE" ]; then
+        to_from_files=(${line// / })
+        from_file=${to_from_files[0]}
+        to_file=${to_from_files[1]}
+        destDir=$(dirname "$to_file")
+        mkdir -p "dist/$destDir"
+        go build -o "dist/$to_file" "$from_file"
+        if [ ! -f "dist/$to_file" ]; then
+            log_error "go build failed: $from_file"
+        fi
     fi
 done < ".manifest"
 

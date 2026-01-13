@@ -12,7 +12,7 @@ unset TEMP
 
 ENVIRONMENT="lab"
 SKIP_UPDATE=false
-HOMELAB_VERSION="0.0.8"
+HOMELAB_VERSION="0.0.9"
 
 while true; do
     case "$1" in
@@ -37,7 +37,7 @@ while true; do
         ;;
         *)
             log_error "Internal error!"
-        ;;
+        ;;  
     esac
 done
 

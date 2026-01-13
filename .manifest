@@ -1,3 +1,4 @@
+bin/do_release.sh           /usr/local/bin/do_release.sh
 bin/homelab_functions.sh    /usr/local/bin/homelab_functions.sh
 bin/make_release.sh         /usr/local/bin/make_release.sh
 bin/renew_certs.sh          /usr/local/bin/renew_certs.sh
