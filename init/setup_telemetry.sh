@@ -20,10 +20,11 @@ docker run -d --name=loki -p 3100:3100 -p 9095:9095 \
 # https://docs.influxdata.com/influxdb3/core/install/#docker-image
 docker pull influxdb:3-core
 docker run -d --name=influxdb3 -p 8181:8181 influxdb:3-core influxdb3 serve \
-  --node-id ${HOSTNAME} \
-  --object-store s3 \
-  --bucket influxdb \
-  --aws-access-key-id ${OBJECT_STORE_ACCESS_KEY_ID} \
-  --aws-secret-access-key ${OBJECT_STORE_SECRET_ACCESS_KEY} \
-  --aws-endpoint http://green-giant:9000 \
-  --aws-allow-http
+    --restart=always \
+    --node-id ${HOSTNAME} \
+    --object-store s3 \
+    --bucket influxdb \
+    --aws-access-key-id ${OBJECT_STORE_ACCESS_KEY_ID} \
+    --aws-secret-access-key ${OBJECT_STORE_SECRET_ACCESS_KEY} \
+    --aws-endpoint http://green-giant:9000 \
+    --aws-allow-http

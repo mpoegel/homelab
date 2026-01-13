@@ -17,6 +17,7 @@ config/keycloak/pizza.css               /usr/local/etc/keycloak/pizza.css
 config/keycloak/theme.properties        /usr/local/etc/keycloak/theme.properties
 
 init/setup_automation.sh    /usr/local/bin/setup_automation.sh
+init/setup_caddy.sh         /usr/local/bin/setup_caddy.sh
 init/setup_envoy.sh         /usr/local/sbin/setup_envoy.sh
 init/setup_keycloak.sh      /usr/local/sbin/setup_keycloak.sh
 init/setup_storage.sh       /usr/local/bin/setup_storage.sh
